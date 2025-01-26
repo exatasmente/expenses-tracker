@@ -29,7 +29,7 @@ const Navigation: React.FC = () => {
   }
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-background border-t border-border p-2 flex justify-around items-center overflow-x-auto">
+    <nav className="fixed bottom-0 left-0 right-0 bg-background border-t border-border p-2 flex justify-around items-center overflow-x-auto z-[150]">
       <Button variant="ghost" size="icon" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
         <Home className="h-5 w-5" />
         <span className="sr-only">{t("home")}</span>
