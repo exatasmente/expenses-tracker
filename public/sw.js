@@ -1,5 +1,5 @@
 const CACHE_NAME = "expense-tracker-v1"
-const urlsToCache = ["/", "/index.html", "/styles.css", "/app.js", "/manifest.json", "/icon.png"]
+const urlsToCache = ["/", "/manifest.json"]
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
