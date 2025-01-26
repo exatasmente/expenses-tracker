@@ -137,7 +137,6 @@ const ExpenseForm: React.FC = () => {
                       {category.name}
                     </SelectItem>
                   ))}
-                <SelectItem value="new">{t("addNewCategory")}</SelectItem>
               </SelectContent>
             </Select>
           </div>

@@ -38,6 +38,7 @@ export interface Category {
 interface ExpenseContextType {
   transactions: Transaction[]
   addTransaction: (transaction: Transaction) => void
+  addTransactions: (transactions: Transaction[]) => void
   updateTransaction: (id: string, updatedTransaction: Transaction) => void
   deleteTransaction: (id: string) => void
   goals: Goal[]
@@ -45,7 +46,7 @@ interface ExpenseContextType {
   updateGoal: (id: string, updatedGoal: Goal) => void
   deleteGoal: (id: string) => void
   categories: Category[]
-  addCategory: (category: Category) => void
+  addCategory: (category: Category) => Category
   updateCategory: (id: string, updatedCategory: Category) => void
   deleteCategory: (id: string) => void
   clearAllData: () => void
@@ -90,7 +91,12 @@ export const ExpenseProvider: React.FC<{ children: React.ReactNode }> = ({ child
   }, [transactions, goals, categories])
 
   const addTransaction = (transaction: Transaction) => {
+    console.log(transaction)
     setTransactions([...transactions, transaction])
+  }
+
+  const addTransactions = (newTransactions: Transaction[]) => {
+    setTransactions([...transactions, ...newTransactions])
   }
 
   const updateTransaction = (id: string, updatedTransaction: Transaction) => {
@@ -113,7 +119,7 @@ export const ExpenseProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setGoals(goals.filter((goal) => goal.id !== id))
   }
 
-  const addCategory = (category: Category) => {
+  const addCategory = (category: Category) : Category => {
     if (!category.id) {
       category.id = category.name.toUpperCase()
     }
@@ -171,6 +177,7 @@ export const ExpenseProvider: React.FC<{ children: React.ReactNode }> = ({ child
   return (
     <ExpenseContext.Provider
       value={{
+        addTransactions,
         transactions,
         addTransaction,
         updateTransaction,

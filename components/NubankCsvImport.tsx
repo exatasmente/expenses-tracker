@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useState } from "react"
-import { useExpenses } from "../contexts/ExpenseContext"
+import { Category, useExpenses } from "../contexts/ExpenseContext"
 import { useLanguage } from "../contexts/LanguageContext"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -19,7 +19,7 @@ interface NubankTransaction {
 }
 
 const NubankCsvImport: React.FC = () => {
-  const { addTransaction, addCategory, categories } = useExpenses()
+  const { addTransactions, addCategory, categories } = useExpenses()
   const { t } = useLanguage()
   const [previewData, setPreviewData] = useState<NubankTransaction[]>([])
 
@@ -50,13 +50,14 @@ const NubankCsvImport: React.FC = () => {
             const headers = lines[0].split(",")
             const transactions: NubankTransaction[] = lines.slice(1, lines.length).map((line) => {
               const values = line.split(",")
+              const amount = Number.parseFloat(values[1]) || 0
               return {
                 date: values[0] || "",
-                amount: Number.parseFloat(values[1]) || 0,
+                amount,
                 identifier: values[2] || "",
                 description: values[3] || "",
                 category: mapCategory(values[3] || ""),
-                type: mapType(values[3] || ""),
+                type: amount < 0 ? "expense" : "income",
               }
             })
             setPreviewData(transactions)
@@ -74,25 +75,27 @@ const NubankCsvImport: React.FC = () => {
   }
 
   const handleImport = () => {
-    previewData.forEach((transaction) => {
-      let category = categories.filter((c) => c.name === transaction.category);
+    addTransactions(previewData.map((transaction) => {
+      let category = categories.find((c) => c.name === transaction.category && c.type === transaction.type);
       if (!category) {
-        category = addCategory(transaction.category);
+        category = addCategory({name: transaction.category, type: transaction.type, id: transaction.category} as Category);
       }
 
-      addTransaction({
+      
+
+      return{
         id: transaction.identifier,
         description: transaction.description,
         amount: Math.abs(transaction.amount),
-        category: category,
+        category: category.id,
         paymentStatus: "Paid",
         date: transaction.date.split("/").reverse().join("-"), // Convert DD/MM/YYYY to YYYY-MM-DD
         type: transaction.amount < 0 ? "expense" : "income",
         isRecurring: false,
         tags: [transaction.type],
-      })
-    })
-    setPreviewData([])
+      }
+    }))
+    // setPreviewData([])
   }
 
   return (
