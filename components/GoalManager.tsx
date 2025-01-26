@@ -53,7 +53,7 @@ const GoalManager: React.FC<GoalManagerProps> = ({ dateRange }) => {
 
   const calculateProgress = (goal: Goal) => {
     const linkedTransactions = filteredTransactions.filter((t) => t.goalId === goal.id)
-    const totalAmount = linkedTransactions.reduce((sum, t) => sum + (t.type === "income" ? t.amount : -t.amount), 0)
+    const totalAmount = linkedTransactions.reduce((sum, t) => sum + t.amount, 0)
     return Math.min(100, Math.max(0, (totalAmount / goal.targetAmount) * 100))
   }
 
