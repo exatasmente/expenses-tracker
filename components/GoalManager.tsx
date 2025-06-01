@@ -98,12 +98,15 @@ const GoalManager: React.FC<GoalManagerProps> = ({ dateRange }) => {
         </form>
 
         <div className="space-y-4">
-          {goals.map((goal) => (
+          {goals.filter(g => g.targetAmount).map((goal) => (
             <Card key={goal.id}>
               <CardContent className="pt-4">
                 <h3 className="text-lg font-semibold">{goal.name}</h3>
                 <p>
-                  {t("target")}: ${goal.targetAmount.toFixed(2)}
+                  {t("target")}: ${goal?.targetAmount?.toFixed(2)}
+                </p>
+                <p>
+                  {t("amountPaid")}: ${(goal?.targetAmount * calculateProgress(goal) )/ 100}
                 </p>
                 <p>
                   {t("deadline")}: {new Date(goal.deadline).toLocaleDateString()}
