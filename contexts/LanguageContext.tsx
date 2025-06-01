@@ -143,6 +143,7 @@ const translations: Translations = {
     debtReduction: "Debt Reduction",
     emergencyFund: "Emergency Fund",
     incomeIncrease: "Income Increase",
+    amountPaid : "Amount Paid",
   },
   "pt-BR": {
     addTransaction: "Adicionar Transação",
@@ -208,6 +209,7 @@ const translations: Translations = {
     source: "Fonte",
     paymentStatus: "Status do Pagamento",
     paid: "Pago",
+    amountPaid : "Valor Pago",
     pending: "Pendente",
     overdue: "Atrasado",
     receipt: "Recibo (opcional)",
