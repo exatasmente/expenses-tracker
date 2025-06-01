@@ -37,7 +37,7 @@ const Gamification: React.FC<GamificationProps> = ({ dateRange }) => {
       ...goal,
       progress: (amountSaved / goal.targetAmount) * 100,
     }
-  })
+  }).filter(g => g.progress >= 0)
 
   return (
     <Card>
